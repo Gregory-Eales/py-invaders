@@ -45,6 +45,8 @@ def main():
 	running = True
 	clock = pygame.time.Clock()
 
+	bg = pygame.image.load('assets/background.png')
+
 
 	sprites = load_sprites()	
 	img = sprites['player']
@@ -98,6 +100,7 @@ def main():
 			#PY =  PY - PY/abs(PY) 
 
 		screen.fill(BLACK)
+		#screen.blit(bg, (0,0))
 		screen.blit(img, (PX,PY))
 
 		for i in range(len(bullets)):
@@ -107,6 +110,7 @@ def main():
 				(bullets[i][0], bullets[i][1])
 				)
 
+		
 		pygame.display.flip()
 		clock.tick(60)
 

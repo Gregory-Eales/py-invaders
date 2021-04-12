@@ -1,3 +1,6 @@
+# this code is from the pygame wiki!
+
+
 # This class handles sprite sheets
 # This was taken from www.scriptefun.com/transcript-2-using
 # sprite-sheets-and-drawing-the-background
