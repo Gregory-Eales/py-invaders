@@ -54,25 +54,35 @@ def main():
 	while running:
 		for event in pygame.event.get():
 
-		  	if event.type == pygame.QUIT:
-		  		running = False
+			if event.type == pygame.QUIT:
+				running = False
 
-		  	if event.type == pygame.KEYDOWN:
-			  	if event.key == pygame.K_LEFT:
-			  		PVX -= 1
+			elif event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_LEFT:
+					PVX -= 10
 
-			  	if event.key == pygame.K_RIGHT:
-			  		PVX += 1
+				if event.key == pygame.K_RIGHT:
+					PVX += 10
 
-			  	if event.key == pygame.K_UP:
-			  		PVY -= 1
+				if event.key == pygame.K_UP:
+					PVY -= 10
 
-			  	if event.key == pygame.K_DOWN:
-			  		PVY += 1
-
+				if event.key == pygame.K_DOWN:
+					PVY += 10
+			
+			if PVX !=0:	
+				PVX = PVX - PVX/abs(PVX)
+			if PVY !=0:
+				PVY = PVY - PVY/abs(PVY)  
 
 		PX += PVX
 		PY += PVY
+
+		#if PX !=0 and PVX==0 and PVY==0:
+			#PX =  PX - PX/abs(PX)
+
+		#if PY !=0 and PVY==0 and PVX==0:
+			#PY =  PY - PY/abs(PY) 
 
 		screen.fill(BLACK)
 		screen.blit(img, (PX,PY))
