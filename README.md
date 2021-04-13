@@ -2,7 +2,7 @@
 space invaders made with pygame
 
 
-
+<img src='./img/preview.png' width=400>
 
 
 ## sources
