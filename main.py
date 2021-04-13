@@ -26,6 +26,16 @@ def load_sprites():
 	sprites['bullet'] = ss.image_at((16, 8, 8, 8))
 	return sprites
 
+
+def title_screen():
+
+	# music
+	mixer.init()
+	mixer.music.load("assets/song.mp3")
+	mixer.music.set_volume(VOLUME)
+	mixer.music.play()
+
+
 def main():
 
 	
@@ -33,7 +43,7 @@ def main():
 	mixer.init()
 	mixer.music.load("assets/song.mp3")
 	mixer.music.set_volume(VOLUME)
-	mixer.music.play()
+	
 
 	laser_sound = pygame.mixer.Sound("assets/laser.wav")
 
@@ -47,11 +57,46 @@ def main():
 
 	bg = pygame.image.load('assets/background.png')
 
+	title = pygame.image.load('assets/title.png')
+	title_message = pygame.image.load('assets/title-message.png')
+	title_message = pygame.transform.scale(
+		title_message,
+		(int(1097/4), int(74/4)),
+	)
 
 	sprites = load_sprites()	
 	img = sprites['player']
+	#img = img.convert_alpha(screen)
 
+	mixer.music.play()
+	#------------------------------------------------#
+	counter = 0
+	while running:
+		for event in pygame.event.get():
 
+			if event.type == pygame.QUIT:
+				running = False
+
+			elif event.type == pygame.KEYDOWN:
+				running = False
+
+		screen.fill(BLACK)
+
+		screen.blit(bg, (0,0))
+		screen.blit(title, (40,120))
+
+		counter += 1
+		if counter < 45:
+			screen.blit(title_message, (185, 400))
+
+		if counter >= 90:
+			counter = 0
+		
+		pygame.display.flip()
+		clock.tick(60)
+
+	#------------------------------------------------#
+	
 	PX = 0
 	PY = 560
 
@@ -60,6 +105,7 @@ def main():
 
 	bullets = []
 
+	running = True
 	while running:
 		for event in pygame.event.get():
 
