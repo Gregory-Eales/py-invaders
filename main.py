@@ -2,6 +2,8 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from pygame import mixer
+from random import randint
+
 from spritesheet import Spritesheet
 
 #------------------------------#
@@ -10,7 +12,34 @@ HEIGHT = 640
 VOLUME = 1.00
 BLACK = (0,0,0)
 CAPTION = 'Py-Invaders'
+MAX_ENEMIES = 1
+SPAWN_RATE = 100
 #------------------------------#
+
+
+def spawn_enemies(enemies):
+	
+	n = SPAWN_RATE
+
+	if len(enemies) < MAX_ENEMIES:
+		if randint(0,n*n-1)%n==0:
+			enemies.append([randint(0, WIDTH), -32])
+
+	return enemies
+
+
+def render_objects(screen, sprite, objects):
+
+	for object in objects:
+		screen.blit(sprite, (object[0], object[1]))
+
+def update_objects(objects, vx, vy):
+
+	for i in range(len(objects)):
+			objects[i][1] += vy
+			objects[i][0] += vx
+
+	return objects
 
 
 def load_sprites():
@@ -104,6 +133,7 @@ def main():
 	PVY = 0
 
 	bullets = []
+	enemies = []
 
 	running = True
 	while running:
@@ -137,25 +167,19 @@ def main():
 				#PVY = PVY - PVY/abs(PVY)  
 
 		PX += PVX
-		#PY += PVY
-
-		#if PX !=0 and PVX==0 and PVY==0:
-			#PX =  PX - PX/abs(PX)
-
-		#if PY !=0 and PVY==0 and PVX==0:
-			#PY =  PY - PY/abs(PY) 
+		
 
 		screen.fill(BLACK)
-		#screen.blit(bg, (0,0))
 		screen.blit(img, (PX,PY))
 
-		for i in range(len(bullets)):
-			bullets[i][1] -= 5
-			screen.blit(
-				sprites['bullet'],
-				(bullets[i][0], bullets[i][1])
-				)
-
+		bullets = update_objects(bullets, 0, -5)
+		render_objects(screen, sprites['bullet'], bullets)
+		
+		enemies = spawn_enemies(enemies)
+		enemies = update_objects(enemies, 0, 0.1)
+		render_objects(screen, sprites['boss'], enemies)
+		
+		
 		
 		pygame.display.flip()
 		clock.tick(60)
